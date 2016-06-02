@@ -1,7 +1,6 @@
 # Jelastic Moodle Add-on
 
 This repository provides [Moodle](http://www.moodle.org/) add-on for Jelastic Platform.
-[![GET IT HOSTED](https://raw.githubusercontent.com/JelasticJPS/Moodle/master/images/getithosted.png)](http://go.jelastic.com/test?hoster-select=1&theme=modern&app=https://raw.githubusercontent.com/JelasticJPS/Moodle/master/Moodle-3.0.1.json)
 
 **Moodle** is a learning platform, designed to provide educators and learners with a single robust.
 
