@@ -8,7 +8,7 @@
 		"type": "php",
 		"homepage": "http://www.moodle.org/",
 		"categories": ["apps/others"],
-		"logo": "https://raw.githubusercontent.com/JelasticJPS/Moodle/master/images/Moodle-logo.png",
+		"logo": "https://raw.githubusercontent.com/jelastic-jps/Moodle/master/images/Moodle-logo.png",
 		"description": {
 			"text": "Moodle is a learning platform, designed to provide educators and learners with a single robust, secure and integrated system to create personalised learning environments."
 		},
@@ -32,11 +32,11 @@
 			},
 			"deployments": [{
 					"context": "ROOT",
-					"archive": "https://raw.githubusercontent.com/JelasticJPS/Moodle/master/dumps/admin.zip",
+					"archive": "https://raw.githubusercontent.com/jelastic-jps/Moodle/master/dumps/admin.zip",
 					"name": "moodle-3.0.1.zip"
 				}, {
 					"context": "moodledata",
-					"archive": "https://raw.githubusercontent.com/JelasticJPS/Moodle/master/dumps/cache.zip",
+					"archive": "https://raw.githubusercontent.com/jelastic-jps/Moodle/master/dumps/cache.zip",
 					"name": "moodledata"
 				}
 			],
@@ -47,7 +47,7 @@
 				}, {
 					"nodeType": "mysql5",
 					"database": {
-						"dump": "https://raw.githubusercontent.com/JelasticJPS/Moodle/master/dumps/moodle.sql",
+						"dump": "https://raw.githubusercontent.com/jelastic-jps/Moodle/master/dumps/moodle.sql",
 						"name": "moodle",
 						"user": "moodle",
 						"patch": "UPDATE moodle.mdl_user SET password=MD5('${user.appPassword}'), email='${user.email}' WHERE username='admin'; UPDATE moodle.mdl_config SET value='${user.email}' WHERE name='supportemail'; UPDATE moodle.mdl_config_log SET value='${user.email}' WHERE name='supportemail'; UPDATE moodle.mdl_config SET value='noreply@${env.domain}' WHERE name='noreplyaddress'; UPDATE moodle.mdl_config SET value='mgBNzUw2bkmGCiUkVXf0kzaNfveVUnZo${env.domain}' WHERE name='siteidentifier'; UPDATE moodle.mdl_config SET value='${env.domain}' WHERE name='chat_serverhost';UPDATE moodle.mdl_config_log SET value='noreply@${env.domain}' WHERE name='noreplyaddress';UPDATE moodle.mdl_config_log SET value='${env.domain}' WHERE name='chat_serverhost';UPDATE moodle.mdl_mnet_host SET wwwroot='${env.protocol}://${env.domain}', ip_address='${nodes.mysql5.address}' WHERE id='1';"
