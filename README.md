@@ -1,4 +1,4 @@
-[![Moodle](images/ownCloud.png)](../../../moodle)
+[![Moodle](images/Moodle-logo.png)](../../../moodle)
 ## Moodle
 
 The JPS package deploys Moodle that initially contains 1 application server and 1 database container. 
