@@ -5,21 +5,21 @@ The JPS package deploys Moodle that initially contains 1 application server and 
 
 ### Highlights
 This package is designed to deploy Moodle environment which represents a learning platform, designed to provide educators and learners with a single robust.
-- Modern, easy to use interface<br />
+- **Modern, easy to use interface**<br />
 Designed to be responsive and accessible, the Moodle interface is easy to navigate on both desktop and mobile devices.
-- Personalised Dashboard<br />
+- **Personalised Dashboard**<br />
 Organise and display courses the way you want, and view at a glance current tasks and messages.
-- Collaborative tools and activities<br />
+- **Collaborative tools and activities**<br />
 Work and learn together in forums, wikis, glossaries, database activities, and much more.
-- All-in-one calendar<br />
+- **All-in-one calendar**<br />
 Moodle’s calendar tool helps you keep track of your academic or company calendar, course deadlines, group meetings, and other personal events.
-- Convenient file management<br />
+- **Convenient file management**<br />
 Drag and drop files from cloud storage services including MS OneDrive, Dropbox and Google Drive.
-- Simple and intuitive text editor<br />
+- **Simple and intuitive text editor**<br />
 Format text and conveniently add media and images with an editor that works across all web browsers and devices.
-- Notifications<br />
+- **Notifications**<br />
 When enabled, users can receive automatic alerts on new assignments and deadlines, forum posts and also send private messages to one another.
-- Track progress<br />
+- **Track progress**<br />
 Educators and learners can track progress and completion with an array of options for tracking individual activities or resources and at course level.
 
 ### Environment Topology
