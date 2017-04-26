@@ -24,7 +24,7 @@ Educators and learners can track progress and completion with an array of option
 
 ### Environment Topology
 
-![Moodle Topology](https://docs.google.com/drawings/d/1rH4bL0JUhKmP5FLETQkY1myucPUKINr57k1ci15sD10/pub?w=505&h=216)
+![moodle-environment-topology](images/moodle-environment-topology.png)
 
 ### Specifics
 
