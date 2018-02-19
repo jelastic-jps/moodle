@@ -18,13 +18,13 @@
 				"nodes": [{
 						"extip": false,
 						"count": 1,
-						"cloudlets": 16,
+						"cloudlets": 8,
 						"nodeType": "apache2"
 					}, {
 						"extip": false,
 						"count": 1,
-						"cloudlets": 16,
-						"nodeType": "mysql5"
+						"cloudlets": 8,
+						"nodeType": "mysql5-6"
 					}
 				],
 				"ssl": false,
@@ -45,28 +45,28 @@
 					"path": "/var/www/webroot/moodledata/.htaccess",
 					"write": "Redirect /moodledata ${env.url}"
 				}, {
-					"nodeType": "mysql5",
+					"nodeType": "mysql5-6",
 					"database": {
 						"dump": "https://raw.githubusercontent.com/jelastic-jps/moodle/master/dumps/moodle.sql",
 						"name": "moodle",
 						"user": "moodle",
-						"patch": "UPDATE moodle.mdl_user SET password=MD5('${user.appPassword}'), email='${user.email}' WHERE username='admin'; UPDATE moodle.mdl_config SET value='${user.email}' WHERE name='supportemail'; UPDATE moodle.mdl_config_log SET value='${user.email}' WHERE name='supportemail'; UPDATE moodle.mdl_config SET value='noreply@${env.domain}' WHERE name='noreplyaddress'; UPDATE moodle.mdl_config SET value='mgBNzUw2bkmGCiUkVXf0kzaNfveVUnZo${env.domain}' WHERE name='siteidentifier'; UPDATE moodle.mdl_config SET value='${env.domain}' WHERE name='chat_serverhost';UPDATE moodle.mdl_config_log SET value='noreply@${env.domain}' WHERE name='noreplyaddress';UPDATE moodle.mdl_config_log SET value='${env.domain}' WHERE name='chat_serverhost';UPDATE moodle.mdl_mnet_host SET wwwroot='${env.protocol}://${env.domain}', ip_address='${nodes.mysql5.address}' WHERE id='1';"
+						"patch": "UPDATE moodle.mdl_user SET password=MD5('${user.appPassword}'), email='${user.email}' WHERE username='admin'; UPDATE moodle.mdl_config SET value='${user.email}' WHERE name='supportemail'; UPDATE moodle.mdl_config_log SET value='${user.email}' WHERE name='supportemail'; UPDATE moodle.mdl_config SET value='noreply@${env.domain}' WHERE name='noreplyaddress'; UPDATE moodle.mdl_config SET value='mgBNzUw2bkmGCiUkVXf0kzaNfveVUnZo${env.domain}' WHERE name='siteidentifier'; UPDATE moodle.mdl_config SET value='${env.domain}' WHERE name='chat_serverhost';UPDATE moodle.mdl_config_log SET value='noreply@${env.domain}' WHERE name='noreplyaddress';UPDATE moodle.mdl_config_log SET value='${env.domain}' WHERE name='chat_serverhost';UPDATE moodle.mdl_mnet_host SET wwwroot='${env.protocol}://${env.domain}', ip_address='${nodes.mysql5-6.address}' WHERE id='1';"
 					}
 				}, {
 					"restart": false,
 					"nodeType": "apache2",
 					"path": "/var/www/webroot/ROOT/config.php",
 					"replacements": [{
-							"replacement": "${nodes.mysql5.address}",
+							"replacement": "${nodes.mysql5-6.address}",
 							"pattern": "{DB_IP}"
 						}, {
-							"replacement": "${nodes.mysql5.database.name}",
+							"replacement": "${nodes.mysql5-6.database.name}",
 							"pattern": "{DB_NAME}"
 						}, {
-							"replacement": "${nodes.mysql5.database.user}",
+							"replacement": "${nodes.mysql5-6.database.user}",
 							"pattern": "{DB_USER}"
 						}, {
-							"replacement": "${nodes.mysql5.database.password}",
+							"replacement": "${nodes.mysql5-6.database.password}",
 							"pattern": "{DB_PASSWORD}"
 						}, {
 							"replacement": "${env.protocol}://${env.domain}",
