@@ -1,62 +1,68 @@
 type: install
-jpsVersion: 0.2
+version: 0.2
 id: moodle
 name: Moodle
-version: 3.0.1
 homepage: http://www.moodle.org/
 categories:
   - apps/content-management
 logo: https://raw.githubusercontent.com/jelastic-jps/moodle/master/images/Moodle-logo.png
 description: Moodle is a learning platform, designed to provide educators and learners with a single robust, secure and integrated system to create personalised learning environments.
 globals:
-  PASS: ${user.appPassword}
-env:
-  topology:
-    engine: php5.4
-    nodes:
-    - cloudlets: 8
+  ADMIN_PASS: ${user.appPassword}
+  DB_PASS: ${fn.password}
+nodes:
+- cloudlets: 8
+  nodeType: apache2
+- cloudlets: 8
+  nodeType: mysql5
+
+onInstall:
+  - deploy:
+      context: ROOT
+      archive: https://download.moodle.org/download.php/direct/stable38/moodle-latest-38.zip
+      name: moodle-3.8.zip
+    
+  - prepareSqlDatabase:
+      nodeType: mysql5
+      loginCredentials:
+        user: root
+        password: ${nodes.mysql5.password}
+      newDatabaseName: moodle
+      newDatabaseUser:
+        name: moodle
+        password: ${globals.DB_PASS}
+      
+  - replaceInFile:
       nodeType: apache2
-    - cloudlets: 8
-      nodeType: mysql5-6
-  deployments:
-  - context: ROOT
-    archive: https://raw.githubusercontent.com/jelastic-jps/moodle/master/dumps/admin.zip
-    name: moodle-3.0.1.zip
-  - context: moodledata
-    archive: https://raw.githubusercontent.com/jelastic-jps/moodle/master/dumps/cache.zip
-    name: moodledata
-  configs:
-  - nodeType: apache2
-    path: /var/www/webroot/moodledata/.htaccess
-    write: Redirect /moodledata ${env.url}
-  - nodeType: mysql5-6
-    database:
-      dump: https://raw.githubusercontent.com/jelastic-jps/moodle/master/dumps/moodle.sql
-      name: moodle
-      user: moodle
-      patch: UPDATE moodle.mdl_user SET password=MD5('${globals.PASS}'), email='${user.email}' WHERE username='admin'; UPDATE moodle.mdl_config SET value='${user.email}' WHERE name='supportemail'; UPDATE moodle.mdl_config_log SET value='${user.email}' WHERE name='supportemail'; UPDATE moodle.mdl_config SET value='noreply@${env.domain}' WHERE name='noreplyaddress'; UPDATE moodle.mdl_config SET value='mgBNzUw2bkmGCiUkVXf0kzaNfveVUnZo${env.domain}' WHERE name='siteidentifier'; UPDATE moodle.mdl_config SET value='${env.domain}' WHERE name='chat_serverhost';UPDATE moodle.mdl_config_log SET value='noreply@${env.domain}' WHERE name='noreplyaddress';UPDATE moodle.mdl_config_log SET value='${env.domain}' WHERE name='chat_serverhost';UPDATE moodle.mdl_mnet_host SET wwwroot='${env.protocol}://${env.domain}', ip_address='${nodes.mysql5-6.address}' WHERE id='1';
-  - restart: false
-    nodeType: apache2
-    path: /var/www/webroot/ROOT/config.php
-    replacements:
-    - replacement: '${nodes.mysql5-6.address}'
-      pattern: '{DB_IP}'
-    - replacement: ${nodes.mysql5-6.database.name}
-      pattern: '{DB_NAME}'
-    - replacement: ${nodes.mysql5-6.database.user}
-      pattern: '{DB_USER}'
-    - replacement: ${nodes.mysql5-6.database.password}
-      pattern: '{DB_PASSWORD}'
-    - replacement: ${env.protocol}://${env.domain}
-      pattern: '{HOSTNAME}'
-  - restart: true
-    nodeType: apache2
-    path: ${SYSTEM_ETC}/php.ini
-    replacements:
-    - pattern: "; zend_extension=opcache.so"
-      replacement: zend_extension=opcache.so
-    - pattern: ";extension=mysqli.so"
-      replacement: "extension=mysqli.so \rmysqli.reconnect = Off \rmysqli.cache_size = 2000"
-    - pattern: ";extension=gd.so"
-      replacement: extension=gd.so
-success: 'Below you will find your admin panel link, username and password.</br></br><table style=''font-size:13px; border: none;''><tr><td>Admin panel URL:</td><td style=''padding-left: 10px;''><a href=''${env.protocol}://${env.domain}/'' target=''_blank''>${env.protocol}://${env.domain}/</a></td></tr>  <tr><td>Admin name:</td><td style=''padding-left: 10px;''>admin</td></tr><tr><td>Password:</td><td style=''padding-left: 10px;''>${globals.PASS}</td></tr></table></br>To add custom domain name for your Moodle installation follow the steps described in our <a href=''http://docs.jelastic.com/custom-domains'' target=''_blank''>documentation</a>'
+      path: ${SYSTEM_ETC}/php.ini
+      replacements:
+      - pattern: "; zend_extension=opcache.so"
+        replacement: zend_extension=opcache.so
+      - pattern: ";extension=mysqli.so"
+        replacement: "extension=mysqli.so \rmysqli.reconnect = Off \rmysqli.cache_size = 2000"
+      - pattern: ";extension=gd.so"
+        replacement: extension=gd.so
+      - pattern: ";extension=intl.so"
+        replacement: extension=intl.so
+  - restartNodes:
+      nodeType: apache2
+
+  - cmd[cp]:
+      - chmod -R 0755 /var/www/webroot/ROOT/*
+      - find /var/www/webroot/ROOT/ -type f -exec chmod 0644 {} \
+      - mkdir /var/www/webroot/moodledata
+      - chown -R jelastic .
+      - php /var/www/webroot/ROOT/admin/cli/install.php --dbhost=${nodes.sqldb.address} --dbname=moodle --dbuser=moodle --dbpass=${globals.DB_PASS} --dbport=3306 --adminuser=admin --adminpass=${globals.ADMIN_PASS} --adminemail=${user.email} --lang=en --non-interactive --wwwroot=http://${env.domain} --dataroot=/var/www/webroot/moodledata/ --fullname=Jelastic --shortname=Moodle --agree-license
+
+  - writeFile:
+      nodeType: apache2
+      path: /var/www/webroot/moodledata/.htaccess
+      write: Redirect /moodledata ${env.url}
+    
+success: |
+  Below you will find your admin panel link, username and password.  
+  
+  Admin panel URL: [${env.protocol}://${env.domain}/](${env.protocol}://${env.domain}/)  
+  Admin name: admin  
+  Password: ${globals.ADMIN_PASS}  
+  To add custom domain name for your Moodle installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains)
