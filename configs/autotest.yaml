@@ -1,0 +1,7 @@
+jps: https://github.com/jelastic-jps/moodle/blob/master/manifest.jps
+component: moodle
+stack:
+ - nodeType: apache
+   tagSetting: cp_tag
+ - nodeType: mysql
+   tagSetting: sqldb_tag
