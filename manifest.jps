@@ -10,6 +10,8 @@ description: Moodle is a learning platform, designed to provide educators and le
 globals:
   ADMIN_PASS: ${user.appPassword}
   DB_PASS: ${fn.password}
+mixins:
+  - configs/vers.yaml
 nodes:
 - cloudlets: 8
   nodeType: apache2
@@ -17,11 +19,15 @@ nodes:
   nodeType: mysql5
 
 onInstall:
+  - script: 'return { result: 0, version: "${globals.version_moodle}".match(/(\d+)\.(\d+)/g)[0].replace(".", "") };'
+  - setGlobals:
+      version_short: ${response.version}
+
   - deploy:
       context: ROOT
-      archive: https://download.moodle.org/download.php/direct/stable38/moodle-latest-38.zip
-      name: moodle-3.8.zip
-    
+      archive: https://download.moodle.org/stable${globals.version_short}/moodle-${globals.version_moodle}.zip
+      name: moodle-${globals.version_moodle}.zip
+
   - prepareSqlDatabase:
       nodeType: mysql5
       loginCredentials:
