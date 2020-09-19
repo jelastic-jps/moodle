@@ -1,7 +1,7 @@
 tags:
   apachephp:
     apachephp:
-      digest: sha256:6a48d2b4ab8ae93c08a1e61f9933be6fc3a48b891acdc9af1ac9ea3d2add1a01
+      digest: sha256:738db137a9d3cecc3c147c1d6a3455953a15e63568d3477f7182d2d2695fdb79
       version: 2.4.46-php-7.4.10
   mysql:
     mysql5:
