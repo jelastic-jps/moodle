@@ -5,11 +5,16 @@ name: Moodle
 homepage: http://www.moodle.org/
 categories:
   - apps/content-management
-logo: https://raw.githubusercontent.com/jelastic-jps/moodle/master/images/Moodle-logo.png
+
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/moodle/master/
+logo: images/Moodle-logo.png
+
 description: Moodle is a learning platform, designed to provide educators and learners with a single robust, secure and integrated system to create personalised learning environments.
+
 globals:
   ADMIN_PASS: ${user.appPassword}
   DB_PASS: ${fn.password}
+
 mixins:
   - configs/vers.yaml
 nodes:
