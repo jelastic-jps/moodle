@@ -1,15 +1,22 @@
 type: install
-version: 0.2
+version: 1.7
 id: moodle
 name: Moodle
 homepage: http://www.moodle.org/
 categories:
   - apps/content-management
-logo: https://raw.githubusercontent.com/jelastic-jps/moodle/master/images/Moodle-logo.png
+
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/moodle/master/
+logo: images/Moodle-logo.png
+
 description: Moodle is a learning platform, designed to provide educators and learners with a single robust, secure and integrated system to create personalised learning environments.
+
 globals:
   ADMIN_PASS: ${user.appPassword}
   DB_PASS: ${fn.password}
+
+mixins:
+  - configs/vers.yaml
 nodes:
 - cloudlets: 8
   nodeType: apache2
@@ -17,11 +24,15 @@ nodes:
   nodeType: mysql5
 
 onInstall:
+  - script: 'return { result: 0, version: "${globals.version_moodle}".match(/(\d+)\.(\d+)/g)[0].replace(".", "") };'
+  - setGlobals:
+      version_short: ${response.version}
+
   - deploy:
       context: ROOT
-      archive: https://download.moodle.org/download.php/direct/stable38/moodle-latest-38.zip
-      name: moodle-3.8.zip
-    
+      archive: https://download.moodle.org/stable${globals.version_short}/moodle-${globals.version_moodle}.zip
+      name: moodle-${globals.version_moodle}.zip
+
   - prepareSqlDatabase:
       nodeType: mysql5
       loginCredentials:
@@ -52,7 +63,7 @@ onInstall:
       - find /var/www/webroot/ROOT/ -type f -exec chmod 0644 {} \
       - mkdir /var/www/webroot/moodledata
       - chown -R jelastic .
-      - php /var/www/webroot/ROOT/admin/cli/install.php --dbhost=${nodes.sqldb.address} --dbname=moodle --dbuser=moodle --dbpass=${globals.DB_PASS} --dbport=3306 --adminuser=admin --adminpass=${globals.ADMIN_PASS} --adminemail=${user.email} --lang=en --non-interactive --wwwroot=http://${env.domain} --dataroot=/var/www/webroot/moodledata/ --fullname=Jelastic --shortname=Moodle --agree-license
+      - php /var/www/webroot/ROOT/admin/cli/install.php --dbhost=${nodes.sqldb.address} --dbname=moodle --dbuser=moodle --dbpass='${globals.DB_PASS}' --dbport=3306 --adminuser=admin --adminpass='${globals.ADMIN_PASS}' --adminemail=${user.email} --lang=en --non-interactive --wwwroot=http://${env.domain} --dataroot=/var/www/webroot/moodledata/ --fullname=Jelastic --shortname=Moodle --agree-license
 
   - writeFile:
       nodeType: apache2
