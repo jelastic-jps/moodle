@@ -25,7 +25,13 @@ nodes:
   nodeType: mysql5
 
 onInstall:
-  - script: 'return { result: 0, version: "${globals.version_moodle}".match(/(\d+)\.(\d+)/g)[0].replace(".", "") };'
+  - script: |
+      var version = "${globals.version_moodle}".match(/(\d+)\.(\d+)/g)[0].replace(".", "");
+      if (version.length == 2) version += 0;
+      return { 
+        result: 0,
+        version: version
+      };
   - setGlobals:
       version_short: ${response.version}
 
@@ -65,7 +71,9 @@ onInstall:
       - mkdir /var/www/webroot/moodledata
       - chown -R jelastic .
       - php /var/www/webroot/ROOT/admin/cli/install.php --dbhost=${nodes.sqldb.address} --dbname=moodle --dbuser=moodle --dbpass='${globals.DB_PASS}' --dbport=3306 --adminuser=admin --adminpass='${globals.ADMIN_PASS}' --adminemail=${user.email} --lang=en --non-interactive --wwwroot=http://${env.domain} --dataroot=/var/www/webroot/moodledata/ --fullname=Jelastic --shortname=Moodle --agree-license
-
+      - sed -i "s|Header always set Cross-Origin-Opener-Policy|#Header always set Cross-Origin-Opener-Policy|g" /etc/httpd/conf.d/10-shared_headers.conf
+      - sudo service httpd restart
+      
   - writeFile:
       nodeType: apache2
       path: /var/www/webroot/moodledata/.htaccess
