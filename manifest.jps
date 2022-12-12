@@ -45,7 +45,7 @@ nodes:
 
 onInstall:
   - script: |
-      var version = "${globals.version_moodle}".match(/(\d+)\.(\d+)/g)[0].replace(".", "");
+      var version = "${globals.version_moodle}".match(/(\d+)\.(\d+)/g)[0].replace(".", "0");
       if (version.length == 2) version += 0;
       return {
         result: 0,
