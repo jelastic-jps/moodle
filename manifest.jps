@@ -39,13 +39,13 @@ onAfterRemoveSSL:
 nodes:
 - cloudlets: 8
   nodeType: apache2
-  engine: php7.4
+  engine: php8.1
 - cloudlets: 8
   nodeType: mysql5
 
 onInstall:
   - script: |
-      var version = "${globals.version_moodle}".match(/(\d+)\.(\d+)/g)[0].replace(".", "");
+      var version = "${globals.version_moodle}".match(/(\d+)\.(\d+)/g)[0].replace(".", "0");
       if (version.length == 2) version += 0;
       return {
         result: 0,
@@ -73,6 +73,8 @@ onInstall:
         replacement: extension=gd.so
       - pattern: ";extension=intl.so"
         replacement: extension=intl.so
+      - pattern: "max_input_vars = 1000"
+        replacement: max_input_vars = 5000
   - restartNodes:
       nodeType: apache2
 
