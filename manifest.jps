@@ -73,6 +73,8 @@ onInstall:
         replacement: extension=gd.so
       - pattern: ";extension=intl.so"
         replacement: extension=intl.so
+      - pattern: "max_input_vars = 1000"
+        replacement: max_input_vars = 5000
   - restartNodes:
       nodeType: apache2
 
