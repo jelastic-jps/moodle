@@ -13,7 +13,7 @@ description: Moodle is a learning platform, designed to provide educators and le
 
 globals:
   ADMIN_PASS: ${user.appPassword}
-  DB_PASS: ${fn.password}
+  DB_PASS: ${fn.password(10)}
   application: moodle
   CONFIG: /var/www/webroot/ROOT/config.php
 
