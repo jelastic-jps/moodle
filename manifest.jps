@@ -6,7 +6,7 @@ homepage: http://www.moodle.org/
 categories:
   - apps/content-management
 
-baseUrl: https://raw.githubusercontent.com/sych74/moodle/master/
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/moodle/master/
 logo: images/Moodle-logo.png
 
 description: Moodle is a learning platform, designed to provide educators and learners with a single robust, secure and integrated system to create personalised learning environments.
