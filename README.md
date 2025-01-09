@@ -1,52 +1,34 @@
-[![Moodle](images/Moodle-logo.png)](../../../moodle)
-## Moodle
+<p align="center"> 
+<img src="images/Moodle-logo.png" alt="Moodle">
+</p>
 
-The JPS package deploys Moodle that initially contains 1 application server and 1 database container. 
+# Moodle
 
-### Highlights
-This package is designed to deploy Moodle environment which represents a learning platform, designed to provide educators and learners with a single robust.
-- **Modern, easy to use interface**<br />
-Designed to be responsive and accessible, the Moodle interface is easy to navigate on both desktop and mobile devices.
-- **Personalised Dashboard**<br />
-Organise and display courses the way you want, and view at a glance current tasks and messages.
-- **Collaborative tools and activities**<br />
-Work and learn together in forums, wikis, glossaries, database activities, and much more.
-- **All-in-one calendar**<br />
-Moodle’s calendar tool helps you keep track of your academic or company calendar, course deadlines, group meetings, and other personal events.
-- **Convenient file management**<br />
-Drag and drop files from cloud storage services including MS OneDrive, Dropbox and Google Drive.
-- **Simple and intuitive text editor**<br />
-Format text and conveniently add media and images with an editor that works across all web browsers and devices.
-- **Notifications**<br />
-When enabled, users can receive automatic alerts on new assignments and deadlines, forum posts and also send private messages to one another.
-- **Track progress**<br />
-Educators and learners can track progress and completion with an array of options for tracking individual activities or resources and at course level.
+The package deploys the [Moodle](https://moodle.org/) solution - an open-source online learning management system enabling educators to create their own private website filled with dynamic courses that extend learning, any time, anywhere. Moodle provides administrators and learners with a single robust, secure, and integrated system to create personalized learning environments.
 
-### Environment Topology
 
-![moodle-environment-topology](images/moodle-environment-topology.png)
+## Environment Topology
 
-### Specifics
+This package creates a dedicated Moodle environment that contains one application server and one database container. It automatically deploys and sets the Moodle application. The automatic vertical scaling is enabled out of the box, and [horizontal scaling](https://www.virtuozzo.com/application-platform-docs/automatic-horizontal-scaling/) can be configured (if needed). The default software stacks utilized in the package are the following:
 
-Layer                |     Server    | Number of CTs <br/> by default | Cloudlets per CT <br/> (reserved/dynamic) | Options
--------------------- | --------------| :----------------------------: | :---------------------------------------: | :-----:
-AS                   | Apache 2 (MOD_PHP) |       1                        |           1 / 16                          | -
-DB                   |    MySQL      |       1                        |           1 / 16                           | -
+- Apache 2 PHP application server (PHP 8.3)
+- MySQL 8 database
+- Moodle 4.5
 
-* AS - Application server 
-* DB - Database 
-* CT - Container
 
-**Moodle Version**: 3.0.1<br/>
-**PHP Engine**: PHP 5.4.45<br/>
-**MySQL Database**: 5.7.12
+## Deployment to Cloud
 
-### Deployment
+To get your Moodle solution, click the "**Deploy to Cloud**" button below, specify your email address within the widget, choose one of the [Virtuozzo Public Cloud Providers](https://www.virtuozzo.com/application-platform-partners/), and confirm by clicking **Install**.
 
-In order to get this solution instantly deployed, click the "Get It Hosted Now" button, specify your email address within the widget, choose one of the [Jelastic Public Cloud providers](https://jelastic.cloud) and press Install.
+[![Deploy to Cloud](https://raw.githubusercontent.com/jelastic-jps/common/main/images/deploy-to-cloud.png)](https://www.virtuozzo.com/install/?manifest=https://raw.githubusercontent.com/jelastic-jps/moodle/refs/heads/master/manifest.jps)
 
-[![GET IT HOSTED](https://raw.githubusercontent.com/jelastic-jps/jpswiki/master/images/getithosted.png)](https://jelastic.com/install-application/?manifest=https%3A%2F%2Fgithub.com%2Fjelastic-jps%2FMoodle%2Fraw%2Fmaster%2Fmanifest.jps)
+> If you already have a Virtuozzo Application Platform (VAP) account, you can deploy this solution from the [Marketplace](https://www.virtuozzo.com/application-platform-docs/marketplace/) or [import](https://www.virtuozzo.com/application-platform-docs/environment-import/) a manifest file from this repository.
 
-To deploy this package to Jelastic Private Cloud, import [this JPS manifest](../../raw/master/manifest.jps) within your dashboard ([detailed instruction](https://docs.jelastic.com/environment-export-import#import)).
 
-More information about Jelastic JPS package and about installation widget for your website can be found in the [Jelastic JPS Application Package](https://github.com/jelastic-jps/jpswiki/wiki/Jelastic-JPS-Application-Package) reference.
+## Installation Process
+
+In the opened installation window at the VAP dashboard, provide a preferred environment and display names, choose a region (if available), and confirm the installation.
+
+![Moodle deployment wizard](images/moodle-deployment-wizard.png)
+
+Your Moodle application will be automatically installed in a few minutes.
