@@ -2,14 +2,14 @@ type: install
 version: 1.7
 id: moodle
 name: Moodle
-homepage: http://www.moodle.org/
+homepage: https://moodle.org/
 categories:
   - apps/content-management
 
 baseUrl: https://raw.githubusercontent.com/jelastic-jps/moodle/master/
 logo: images/Moodle-logo.png
 
-description: Moodle is a learning platform, designed to provide educators and learners with a single robust, secure and integrated system to create personalised learning environments.
+description: Moodle is a learning platform, designed to provide educators and learners with a single robust, secure and integrated system to create personalized learning environments.
 
 globals:
   ADMIN_PASS: ${user.appPassword}
@@ -109,9 +109,10 @@ actions:
       [[ "${this.value}" -eq "1" ]] && sed -ir "s|\$CFG->wwwroot.*= 'http\:|\$CFG->wwwroot  = 'https\:|g" ${globals.CONFIG} || sed -ir "s|\$CFG->wwwroot.*= 'https\:|\$CFG->wwwroot  = 'http\:|g" ${globals.CONFIG}
 
 success: |
-  Below you will find your admin panel link, username and password.  
+  Use the following credentials to access the Moodle admin panel:
   
-  Admin panel URL: [${env.protocol}://${env.domain}/login/index.php](${env.protocol}://${env.domain}/login/index.php)  
-  Admin name: admin  
-  Password: ${globals.ADMIN_PASS}  
-  To add custom domain name for your Moodle installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains)
+  **Admin panel URL:** [${env.protocol}://${env.domain}/login/index.php](${env.protocol}://${env.domain}/login/index.php)  
+  **Admin name:** admin  
+  **Admin password:** ${globals.ADMIN_PASS}
+  
+  To add a custom domain name for your Moodle installation, follow the steps described in our [documentation](https://www.virtuozzo.com/application-platform-docs/custom-domains/).
