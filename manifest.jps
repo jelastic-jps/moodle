@@ -36,6 +36,8 @@ onAfterRemoveSSL:
   setSSL:
     value: 0
 
+ssl: true
+skipNodeEmails: true
 nodes:
 - cloudlets: 8
   nodeType: apache2
@@ -95,6 +97,19 @@ onInstall:
       nodeType: apache2
       path: /var/www/webroot/moodledata/.htaccess
       write: Redirect /moodledata ${env.url}
+
+  - script: |
+        return {
+          result:0,
+          ssl: jelastic.billing.account.GetQuotas('environment.jelasticssl.enabled').array[0].value
+        }
+        
+  - if (${quota.environment.jelasticssl.enabled}):
+      setSSL:
+        value: 1
+  - else:
+      setSSL:
+        value: 0
     
 actions:
   createDb:
