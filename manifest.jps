@@ -97,18 +97,12 @@ onInstall:
       nodeType: apache2
       path: /var/www/webroot/moodledata/.htaccess
       write: Redirect /moodledata ${env.url}
-
-  - script: |
-        return {
-          result:0,
-          ssl: jelastic.billing.account.GetQuotas('environment.jelasticssl.enabled').array[0].value
-        }
         
   - if (${quota.environment.jelasticssl.enabled}):
-      setSSL:
+    - setSSL:
         value: 1
   - else:
-      setSSL:
+    - setSSL:
         value: 0
     
 actions:
